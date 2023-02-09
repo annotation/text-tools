@@ -8,6 +8,7 @@ HELP = """
 Given an XML schema file,
 produces a tab-separated list of elements defined in the schema,
 with columns
+
     (element name) (simple or complex) (mixed or pure content)
 
 USAGE
@@ -26,20 +27,20 @@ print(defs)
 
 CAVEAT
 
-This code has only been tested on a single xsd, converted from a relaxrng
+This code has only been tested on a single xsd, converted from a relaxRNG
 file produced by a customisation of TEI.
 
-It could very well be that I have missed parts of the sematics of XML Schema.
+It could very well be that I have missed parts of the semantics of XML-Schema.
 """
 
 
 class SchemaAnalysis:
-    """Extracts meaningfull information from an XML Schema.
+    """Extracts meaningful information from an XML Schema.
 
     When parsing XML it is sometimes needed to know the properties of the current
     element, especially whether it allows mixed content or not.
 
-    If it does not, it is save to discard white-space, otherwise not.
+    If it does not, it is safe to discard white-space, otherwise not.
 
     Moreover, if there are two adjacent elements, each containing text,
     are the string at the end of the first element and the string at the start of the
@@ -85,7 +86,7 @@ class SchemaAnalysis:
         Returns
         -------
         tuple
-            Such that definitions from other than xs:element come first,
+            The members are such that definitions from other than xs:element come first,
             and within xs:element those that are "abstract" come first.
         """
         name = x[0]
@@ -101,21 +102,21 @@ class SchemaAnalysis:
     def interpret(self, asTsv=False):
         """Reads the xsd and interprets the element definitions.
 
-        The definitions are read with the module lxml.
+        The definitions are read with the module `lxml`.
 
-        For each definition of a name certain attributes are rememebered, e.g.
-        the kind, the presence of a mixed attribute, whether it is a
-        substitutionGroup or extension, and whether it is abstract.
+        For each definition of a name certain attributes are remembered, e.g.
+        the *kind*, the presence of a *mixed* attribute, whether it is a
+        *substitutionGroup* or *extension*, and whether it is *abstract*.
 
-        When elements refer to a substitutionGroup, they need to get
-        the kind and mixed attributes of that group.
+        When elements refer to a *substitutionGroup*, they need to get
+        the *kind* and *mixed* attributes of that group.
 
-        When elements refer to a base, they need to get
-        the kind and mixed attributes of an extension with that base.
+        When elements refer to a *base*, they need to get
+        the *kind* and *mixed* attributes of an extension with that *base*.
 
         After an initial parse of the XSD file, we do a variable number of
         resolving rounds, where we chase the substitution groups and
-        extensions, untill nothing changes anymore.
+        extensions, until nothing changes anymore.
 
         Parameters
         ----------
@@ -129,8 +130,9 @@ class SchemaAnalysis:
             One line/item per element.
             Each line has: element name, element kind, mixed status.
 
-            The absence of the element kind and mixed status are indicated
+            The absence of the element *kind* and *mixed* status are indicated
             with `---` in the TSV and with the `None` value in the list.
+            If all went well, there are n such absences!
         """
 
         debug = self.debug
@@ -150,7 +152,7 @@ class SchemaAnalysis:
             node: Object
                 The current node.
             definingName: string | void
-                If this has a value, we are under neath a definition.
+                If this has a value, we are underneath a definition.
 
             topDef: boolean
                 If we are underneath a definition, this indicates
