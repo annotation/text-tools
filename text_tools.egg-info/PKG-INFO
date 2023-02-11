@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: text-tools
+Version: 0.1
+Summary: Various tools for dealing with textual corpora.
+Home-page: https://github.com/annotation/text-tools
+Author: Dirk Roorda
+Author-email: dirk.roorda@di.huc.knaw.nl
+Keywords: text,database,graph
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Other Environment
+Classifier: Framework :: Jupyter
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows :: Windows 10
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Text Processing :: Markup
+Requires-Python: >=3.11.0
+License-File: LICENSE
+
+file README.md

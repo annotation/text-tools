@@ -1,0 +1,3 @@
+[console_scripts]
+nbconvert = tt.nbconvert:main
+xmlschema = tt.xmlschema:main

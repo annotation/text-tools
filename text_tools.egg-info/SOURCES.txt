@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+text_tools.egg-info/PKG-INFO
+text_tools.egg-info/SOURCES.txt
+text_tools.egg-info/dependency_links.txt
+text_tools.egg-info/entry_points.txt
+text_tools.egg-info/not-zip-safe
+text_tools.egg-info/top_level.txt
+tt/nbconvert.py
+tt/xmlschema.py

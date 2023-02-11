@@ -8,7 +8,7 @@ from shutil import rmtree, copy
 __pdoc__ = {}
 
 HELP = """
-python htmlFromNb.py inputDir outputDir
+python nbconvert.py inputDir outputDir
 
 Converts all `.ipynb` files in *inputDir* to `.html` files in *outputDir*.
 Copies all other files in *inputDir* to *outputDir*.

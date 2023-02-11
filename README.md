@@ -3,7 +3,7 @@
 Lower level tools for the manipulation and publishing of texts and annotations
 
 
-## xml-schema
+## xmlschema
 
 Interpret an XML-Schema and produce a list of elements defined in it, together
 with the information whether the elements have simple or complex type, and mixed or pure content.

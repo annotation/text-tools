@@ -1,10 +1,20 @@
 import sys
+import os
 import collections
+from subprocess import run
 
 from lxml import etree
 
 HELP = """
 
+Fromrelax mode
+--------------
+Transforms a RelaxNG schema into an equivalent xsd schema using
+James Clark's trang library.
+For this, you must have java installed.
+
+Analyse mode
+-------------
 Given an XML schema file,
 produces a tab-separated list of elements defined in the schema,
 with columns
@@ -15,15 +25,8 @@ USAGE
 
 Command line:
 
-python analysis.py schemafile.xsd
-
-In a Python program:
-
-from analysis import SchemaAnalysis
-schemaFile = "MD.xsd"
-SA = SchemaAnalysis(schemaFile)
-defs = SA.interpret()
-print(defs)
+xmlschema analyse {schemafile.xsd}
+xmlschema fromrelax {schemafile.rng}
 
 CAVEAT
 
@@ -34,7 +37,7 @@ It could very well be that I have missed parts of the semantics of XML-Schema.
 """
 
 
-class SchemaAnalysis:
+class Analysis:
     """Extracts meaningful information from an XML Schema.
 
     When parsing XML it is sometimes needed to know the properties of the current
@@ -68,11 +71,18 @@ class SchemaAnalysis:
     )
 
     def __init__(self, schemaPath, debug=False):
-        with open(schemaPath) as fh:
-            tree = etree.parse(fh)
-
         self.debug = debug
-        self.root = tree.getroot()
+
+        try:
+            with open(schemaPath) as fh:
+                tree = etree.parse(fh)
+
+            self.root = tree.getroot()
+            self.good = True
+        except Exception as e:
+            print(f"Could not read and parse {schemaPath}")
+            print(str(e))
+            self.good = False
 
     @staticmethod
     def eKey(x):
@@ -287,14 +297,36 @@ class SchemaAnalysis:
 
 def main():
     args = sys.argv[1:]
-    if "-h" in args or "--help" in args or len(args) != 1:
+    if "-h" in args or "--help" in args:
         print(HELP)
-        quit()
+        return 0
 
-    schemaFile = args[0]
-    SA = SchemaAnalysis(schemaFile, debug=False)
-    defs = SA.interpret(asTsv=True)
-    print(defs)
+    if len(args) != 2:
+        print(HELP)
+        return -1
+
+    (task, schemaFile) = args
+
+    if task not in {"fromrelax", "analyse"}:
+        print(HELP)
+
+        print(f"Wrong task: `{task}`")
+        return -1
+
+    if task == "analyse":
+        A = Analysis(schemaFile, debug=False)
+        if not A.good:
+            return 1
+
+        defs = A.interpret(asTsv=True)
+        print(defs)
+        return 0
+
+    if task == "fromrelax":
+        myDir = os.path.dirname(os.path.abspath(__file__))
+        trang = f"{myDir}/trang/trang.jar"
+        schemaOut = schemaFile.removesuffix(".rng") + ".xsd"
+        return run(f"java -jar {trang} {schemaFile} {schemaOut}", shell=True)
 
 
 if __name__ == "__main__":
